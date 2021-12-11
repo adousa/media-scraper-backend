@@ -5,13 +5,18 @@ import { MediaService } from './Services/media.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import DatabaseConfiguration from './Configurations/database.configuration';
+import { Connection } from 'typeorm';
+import { MediaRepository } from './Repositories/media.repository';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) =>
-        configService.get('database'),
+      useFactory: async (configService: ConfigService) => {
+        return Object.assign(configService.get('database'), {
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        });
+      },
       inject: [ConfigService],
     }),
     ConfigModule.forRoot({
@@ -20,6 +25,8 @@ import DatabaseConfiguration from './Configurations/database.configuration';
     }),
   ],
   controllers: [MediaController],
-  providers: [MediaService],
+  providers: [MediaService, MediaRepository],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly connection: Connection) {}
+}
