@@ -7,7 +7,7 @@ import { MessagePattern } from '@nestjs/microservices';
 export class ScraperController {
   constructor(private readonly scraperService: ScraperService) {}
 
-  @MessagePattern({ cmd: SCRAPER_SERVICE_SCRAP_URL })
+  @MessagePattern(SCRAPER_SERVICE_SCRAP_URL)
   async scrapUrl(payload: { url: string; type: string }): Promise<string[]> {
     return this.scraperService.scrapSrcByType(payload.url, payload.type);
   }
