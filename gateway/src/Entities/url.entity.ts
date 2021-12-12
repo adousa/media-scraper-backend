@@ -16,10 +16,16 @@ export class Url {
   @Column()
   url: string;
 
-  @Column('text')
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   keywords?: string;
 
-  @Column('text')
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   description?: string;
 
   @CreateDateColumn()

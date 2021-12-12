@@ -22,7 +22,10 @@ export class UrlMedia {
   @ManyToOne(() => Url, (url) => url.urlMedia)
   url: number;
 
-  @Column('text')
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
   description?: string;
 
   @CreateDateColumn()
