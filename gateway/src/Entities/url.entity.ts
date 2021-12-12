@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { UrlMedia } from './urlMedia.entity';
+import { UrlMedia } from './url-media.entity';
 
 @Entity()
 export class Url {
