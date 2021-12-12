@@ -10,7 +10,9 @@ import MicroserviceConfiguration from './Configurations/microservice.configurati
 import CommonConfiguration from './Configurations/common.configuration';
 
 import { Connection } from 'typeorm';
-import { MediaRepository } from './Repositories/url.repository';
+import { UrlRepository } from './Repositories/url.repository';
+import { UrlMediaRepository } from './Repositories/url-media.repository';
+import { MediaScraperUtil } from './Utils/media-scraper.util';
 
 @Module({
   imports: [
@@ -33,7 +35,12 @@ import { MediaRepository } from './Repositories/url.repository';
     }),
   ],
   controllers: [MediaController],
-  providers: [MediaService, MediaRepository],
+  providers: [
+    MediaService,
+    UrlMediaRepository,
+    UrlRepository,
+    MediaScraperUtil,
+  ],
 })
 export class AppModule {
   constructor(private readonly connection: Connection) {}
