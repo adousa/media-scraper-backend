@@ -13,3 +13,17 @@ services:
       - ./config/init.sql:/data/application/init.sql
     ports:
       - 3306:3306
+  scraper:
+    container_name: scraper_service
+    platform: linux/x86_64
+    image: scraper-service:1.0.0
+    build:
+      context: ./scraper
+      dockerfile: ./Dockerfile
+    command: npm run start:prod
+    ports:
+      - 3001:3001
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
