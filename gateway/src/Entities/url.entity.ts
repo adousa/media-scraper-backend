@@ -4,24 +4,23 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { UrlMedia } from './urlMedia.entity';
 
 @Entity()
-export class Media {
+export class Url {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   url: string;
 
-  @Column()
-  type: string;
+  @Column('text')
+  keywords?: string;
 
   @Column('text')
-  keywords: string;
-
-  @Column('text')
-  description: string;
+  description?: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -29,6 +28,6 @@ export class Media {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @OneToMany((type) => UrlMedia, (urlMedia: UrlMedia) => urlMedia.url)
+  urlMedia: UrlMedia[];
 }
