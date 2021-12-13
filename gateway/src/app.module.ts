@@ -17,6 +17,7 @@ import { UrlRepository } from './Repositories/url.repository';
 import { UrlMediaRepository } from './Repositories/url-media.repository';
 import { MediaScraperUtil } from './Utils/media-scraper.util';
 import { BasicStrategy } from './Auth/auth-basic.strategy';
+import { ScraperLogger } from './Utils/scraper.logger';
 
 @Module({
   imports: [
@@ -61,7 +62,7 @@ import { BasicStrategy } from './Auth/auth-basic.strategy';
     ]),
   ],
   controllers: [MediaController],
-  providers: [MediaService, MediaScraperUtil, BasicStrategy],
+  providers: [MediaService, MediaScraperUtil, BasicStrategy, ScraperLogger],
 })
 export class AppModule {
   constructor(private readonly connection: Connection) {}
