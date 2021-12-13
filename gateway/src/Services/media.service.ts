@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Url } from '../Entities/url.entity';
 import { UrlMedia } from '../Entities/url-media.entity';
 import { UrlRepository } from '../Repositories/url.repository';
@@ -9,6 +9,7 @@ import { MediaScraperUtil } from '../Utils/media-scraper.util';
 
 @Injectable()
 export class MediaService {
+  private readonly logger = new Logger(MediaService.name);
   constructor(
     private urlRepository: UrlRepository,
     private urlMediaRepository: UrlMediaRepository,
@@ -17,10 +18,14 @@ export class MediaService {
   ) {}
 
   async getUrlMedia(search: string, page: number, pageSize: number) {
+    this.logger.debug(
+      `Get media search:${search} page:${page} pageSize:${pageSize}`,
+    );
     return this.urlMediaRepository.search(search, page, pageSize);
   }
 
   async bulkScrapAndCreate(urls: Array<string>): Promise<Array<Url>> {
+    this.logger.debug(`Start Scraping urls:${urls.toString()} `);
     const results = [];
     for (const url of urls) {
       results.push(await this.scrapAndCreate(url));
