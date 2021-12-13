@@ -5,6 +5,7 @@ import MicroserviceConfiguration from './Configurations/microservice.configurati
 import ScraperConfiguration from './Configurations/scraper.configuration';
 
 import { ScraperService } from './Services/scraper.service';
+import { ScraperLogger } from './Utils/scraper.logger';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { ScraperService } from './Services/scraper.service';
     }),
   ],
   controllers: [ScraperController],
-  providers: [ScraperService, ConfigService],
+  providers: [ScraperService, ConfigService, ScraperLogger],
 })
 export class AppModule {}
