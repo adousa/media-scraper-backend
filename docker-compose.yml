@@ -54,6 +54,8 @@ services:
       - APP_MODE=DEVELOPMENT
       - SCRAPER_SERVICE_HOST=scraper_service
       - SCRAPER_SERVICE_PORT=3001
+      - BASIC_AUTH_USER=admin
+      - BASIC_AUTH_PASS=admin
     ports:
       - 3000:3000
     volumes:

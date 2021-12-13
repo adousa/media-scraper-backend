@@ -22,6 +22,7 @@ describe('Media Controller', () => {
     it('POST /media/', (done) => {
       request(app.getHttpServer())
         .post('/media/')
+        .auth('admin', 'admin')
         .send({
           urls: [
             'https://www.youtube.com/watch?v=99lASEXiLHY&list=RD99lASEXiLHY&start_radio=1',
@@ -40,6 +41,7 @@ describe('Media Controller', () => {
     it('GET /media/', (done) => {
       request(app.getHttpServer())
         .get('/media?search=8014cc26')
+        .auth('admin', 'admin')
         .send()
         .expect(200)
         .expect((res) => {
