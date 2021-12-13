@@ -13,8 +13,7 @@ export class PuppeteerService {
     // set browser and page only once to avoid loading each time
     if (!this.browser) {
       this.browser = await puppeteer.launch({
-        headless: false,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
       });
     }
     if (!this.page) {
