@@ -16,6 +16,7 @@ import { ClientsModule, TcpClientOptions } from '@nestjs/microservices';
 import { UrlRepository } from './Repositories/url.repository';
 import { UrlMediaRepository } from './Repositories/url-media.repository';
 import { MediaScraperUtil } from './Utils/media-scraper.util';
+import { BasicStrategy } from './Auth/auth-basic.strategy';
 
 @Module({
   imports: [
@@ -60,7 +61,7 @@ import { MediaScraperUtil } from './Utils/media-scraper.util';
     ]),
   ],
   controllers: [MediaController],
-  providers: [MediaService, MediaScraperUtil],
+  providers: [MediaService, MediaScraperUtil, BasicStrategy],
 })
 export class AppModule {
   constructor(private readonly connection: Connection) {}
