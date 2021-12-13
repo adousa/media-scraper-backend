@@ -6,7 +6,7 @@ import { MediaScraperUtilMockService } from './mocks/MediaScraperUtilMock.servic
 
 describe('Media Controller', () => {
   let app;
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
     })
@@ -32,6 +32,20 @@ describe('Media Controller', () => {
           expect(res.body[0]).toHaveProperty(
             'url',
             'https://www.youtube.com/watch?v=99lASEXiLHY&list=RD99lASEXiLHY&start_radio=1',
+          );
+        })
+        .end(done);
+    });
+
+    it('GET /media/', (done) => {
+      request(app.getHttpServer())
+        .get('/media?search=8014cc26')
+        .send()
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.data[0]).toHaveProperty(
+            'src',
+            'blob:https://www.youtube.com/8014cc26-05a5-4247-84cf-d25894e5a592',
           );
         })
         .end(done);
