@@ -1,4 +1,4 @@
-FROM node:16 AS builder
+FROM node:16
 
 # install
 RUN apt-get update \
@@ -10,15 +10,9 @@ RUN apt-get update \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
+
 WORKDIR /app
-COPY ./package.json ./
-
-
-RUN npm install
 COPY . .
+RUN npm install
 RUN npm run build
-
-FROM node:16-alpine
-WORKDIR /app
-COPY --from=builder /app ./
 CMD ["npm", "run", "start:prod"]
