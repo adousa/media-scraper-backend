@@ -37,6 +37,9 @@ export class MediaService {
     for (const type of typesToScrap) {
       const typeSrcs = await this.mediaScrapper.scrapURLByType(url, type);
       for (const src of typeSrcs) {
+        if (!src || src === '') {
+          continue;
+        }
         const urlMedia = new UrlMedia();
         urlMedia.src = src;
         urlMedia.type = type;
