@@ -12,7 +12,10 @@ export class PuppeteerService {
   async initiateBrowserAndPage(): Promise<void> {
     // set browser and page only once to avoid loading each time
     if (!this.browser) {
-      this.browser = await puppeteer.launch();
+      this.browser = await puppeteer.launch({
+        headless: false,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      });
     }
     if (!this.page) {
       this.page = await this.browser.newPage();
