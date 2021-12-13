@@ -11,14 +11,19 @@ export class PuppeteerService {
 
   async initiateBrowserAndPage(): Promise<void> {
     // set browser and page only once to avoid loading each time
-    if (!this.browser) {
+    if (!this.browser || !this.browser.isConnected()) {
       this.browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
       });
     }
-    if (!this.page) {
+    if (!this.page || this.page.isClosed()) {
       this.page = await this.browser.newPage();
     }
+  }
+
+  async closeBrowserAndPage(): Promise<void> {
+    await this.page.close();
+    await this.browser.close();
   }
 
   async goToPage(url: string): Promise<void> {

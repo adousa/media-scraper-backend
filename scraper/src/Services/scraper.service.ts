@@ -7,12 +7,19 @@ export class ScraperService extends PuppeteerService {
     await this.initiateBrowserAndPage();
     await this.goToPage(url);
 
-    return await this.page.evaluate(() => {
+    const result = await this.page.evaluate((type) => {
       // @ts-ignore
-      return Array.from(document.querySelector(type)).map((tag) => {
-        // @ts-ignore
-        return tag.getAttribute('src');
-      });
-    });
+      const tags = document.querySelector(type);
+      if (tags) {
+        return Array.from(tags).map((tag) => {
+          // @ts-ignore
+          return tag.getAttribute('src');
+        });
+      }
+      return [];
+    }, type);
+
+    await this.closeBrowserAndPage();
+    return result;
   }
 }
