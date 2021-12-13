@@ -9,8 +9,9 @@ export class ScraperService extends PuppeteerService {
 
     const result = await this.page.evaluate((type) => {
       // @ts-ignore
-      const tags = document.querySelector(type);
+      const tags = document.querySelectorAll(type);
       if (tags) {
+        // @ts-ignore
         return Array.from(tags).map((tag) => {
           // @ts-ignore
           return tag.getAttribute('src');
