@@ -47,7 +47,7 @@ export class MediaService {
         const urlMedia = new UrlMedia();
         urlMedia.src = src;
         urlMedia.type = type;
-        urlMedia.url = record.id;
+        urlMedia.url = record;
         await this.urlMediaRepository.save(urlMedia);
       }
     }

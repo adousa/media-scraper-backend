@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { UrlMedia } from './url-media.entity';
 
-@Entity()
+@Entity('urls')
 export class Url {
   @PrimaryGeneratedColumn()
   id: number;

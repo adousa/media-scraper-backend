@@ -5,10 +5,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Url } from './url.entity';
 
-@Entity()
+@Entity('url_media')
 export class UrlMedia {
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,7 +21,8 @@ export class UrlMedia {
   type: string;
 
   @ManyToOne(() => Url, (url) => url.urlMedia)
-  url: number;
+  @JoinColumn({ name: 'url_id' })
+  url: Url;
 
   @Column({
     type: 'text',
