@@ -1,0 +1,70 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql
+    platform: linux/x86_64 # used for apple silicon M1
+    command: --default-authentication-plugin=mysql_native_password --init-file /data/application/init.sql
+    restart: always
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root # testing purpose
+    volumes:
+      - /tmp/mysql-database:/data/db
+      - ./config/init.sql:/data/application/init.sql
+    ports:
+      - 3306:3306
+    networks:
+      - backend
+  scraper:
+    container_name: scraper_service
+    platform: linux/x86_64
+    image: scraper-service:1.0.0
+    build:
+      context: ./scraper
+      dockerfile: ./Dockerfile
+    command: npm run start:prod
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3001
+    ports:
+      - 3001:3001
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    networks:
+      - backend
+  gateway:
+    container_name: gateway_service
+    platform: linux/x86_64
+    image: gateway-service:1.0.0
+    build:
+      context: ./gateway
+      dockerfile: ./Dockerfile
+    command: npm run start:prod
+    environment:
+      - DB_TYPE=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - PORT=3000
+      - HOST=0.0.0.0
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_NAME=momos
+      - APP_MODE=DEVELOPMENT
+      - SCRAPER_SERVICE_HOST=scraper_service
+      - SCRAPER_SERVICE_PORT=3001
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    networks:
+      - backend
+    links:
+      - mysql
+      - scraper
+networks:
+  backend:
+    driver: bridge
