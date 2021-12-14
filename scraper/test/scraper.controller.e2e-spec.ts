@@ -45,17 +45,19 @@ describe('', () => {
 
   it('Message scrapURL', (done) => {
     const payload = {
-      type: 'video',
+      type: ['img'],
       url: 'https://www.youtube.com/watch?v=99lASEXiLHY&list=RD99lASEXiLHY',
     };
-    const response: Observable<any> = client.send(
-      { cmd: SCRAPER_SERVICE_SCRAP_URL },
-      { ...payload },
-    );
+    const response: Observable<any> = client.send(SCRAPER_SERVICE_SCRAP_URL, {
+      ...payload,
+    });
     response.subscribe((result) => {
-      expect(result).toMatchObject([
-        'blob:https://www.youtube.com/8014cc26-05a5-4247-84cf-d25894e5a592',
-      ]);
+      expect(result).toMatchObject({
+        img: [
+          'blob:https://www.youtube.com/8014cc26-05a5-4247-84cf-d25894e5a592',
+        ],
+        pageTitle: 'ALica Song',
+      });
       done();
     });
   });
