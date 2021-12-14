@@ -14,7 +14,9 @@ export class UrlMedia {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    type: 'text',
+  })
   src: string;
 
   @Column()
