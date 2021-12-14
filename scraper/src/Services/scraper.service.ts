@@ -18,8 +18,6 @@ export class ScraperService extends PuppeteerService {
           (result || []).length
         }`,
       );
-
-      await this.closeBrowserAndPage();
     } catch (e) {
       this.logger.error(`error while scraping ${url} for type ${url}`);
       throw e;
@@ -41,8 +39,6 @@ export class ScraperService extends PuppeteerService {
       Object.assign(result, { pageTitle: await this.scrapPageTitle() });
 
       this.logger.debug(`Finish Scraping ${url} result: ${result.toString()}`);
-
-      await this.closeBrowserAndPage();
     } catch (e) {
       this.logger.error(`error while scraping ${url} for type ${url}`);
       throw e;
