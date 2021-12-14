@@ -46,7 +46,7 @@ the following command
 # unit tests
 $ npm run test
 or
-# npm run test:e2e
+$ npm run test:e2e
 ```
 
 
