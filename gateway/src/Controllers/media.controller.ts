@@ -6,11 +6,11 @@ import { Url } from '../Entities/url.entity';
 import { PaginateResponse } from '../Repositories/common.repository';
 import { LocalAuthGuard } from '../Auth/basic-auth.guard';
 
-@Controller('media')
+@Controller('url-media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
-  @Post()
+  @Post('scrap')
   @UseGuards(LocalAuthGuard)
   async scrapMedia(@Body() payload: CreateMediaDto): Promise<Array<Url>> {
     return this.mediaService.bulkScrapAndCreate(payload.urls);
@@ -18,11 +18,10 @@ export class MediaController {
 
   @Get()
   @UseGuards(LocalAuthGuard)
-  async getUrlMedia(
-    @Query() queryObject: GetMediaDto,
-  ): Promise<PaginateResponse> {
+  async list(@Query() queryObject: GetMediaDto): Promise<PaginateResponse> {
     return this.mediaService.getUrlMedia(
       queryObject.search,
+      queryObject.mediaType,
       queryObject.page ? parseInt(queryObject.page) : undefined,
       queryObject.pageSize ? parseInt(queryObject.pageSize) : undefined,
     );

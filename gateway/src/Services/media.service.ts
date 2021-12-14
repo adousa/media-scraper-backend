@@ -17,11 +17,16 @@ export class MediaService {
     private configService: ConfigService,
   ) {}
 
-  async getUrlMedia(search: string, page: number, pageSize: number) {
+  async getUrlMedia(
+    search: string,
+    mediaType: string,
+    page: number,
+    pageSize: number,
+  ) {
     this.logger.debug(
-      `Get media search:${search} page:${page} pageSize:${pageSize}`,
+      `Get media search:${search} page:${page} pageSize:${pageSize} mediaType:${mediaType}`,
     );
-    return this.urlMediaRepository.search(search, page, pageSize);
+    return this.urlMediaRepository.search(search, mediaType, page, pageSize);
   }
 
   async bulkScrapAndCreate(urls: Array<string>): Promise<Array<Url>> {

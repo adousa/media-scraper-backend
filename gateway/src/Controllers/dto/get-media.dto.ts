@@ -12,4 +12,8 @@ export class GetMediaDto {
   @IsString()
   @IsOptional()
   search?: string;
+
+  @IsString()
+  @IsOptional()
+  mediaType?: string;
 }
