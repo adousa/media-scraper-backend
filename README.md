@@ -7,6 +7,11 @@ URLs.
 
 This Service designed in multiple microservices to handle the load and to make help
  in scaling up the scraping service if required.  
+ 
+ scraper-service used `puppeteer` headless browser to scrap media from URLs. running scraper-service container 
+ was tested successfully in Ubuntu.
+ 
+ To run the service locally make sure to install the required libraries. 
 
 ## Installation and Running the App
 
