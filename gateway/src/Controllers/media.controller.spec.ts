@@ -19,9 +19,9 @@ describe('Media Controller', () => {
   });
 
   describe('Testing images and videos Scraping from a URL', () => {
-    it('POST /media/', (done) => {
+    it('POST /url-media/scrap', (done) => {
       request(app.getHttpServer())
-        .post('/media/')
+        .post('/url-media/scrap')
         .auth('admin', 'admin')
         .send({
           urls: [
@@ -38,9 +38,9 @@ describe('Media Controller', () => {
         .end(done);
     });
 
-    it('GET /media/', (done) => {
+    it('GET /url-media/', (done) => {
       request(app.getHttpServer())
-        .get('/media?search=8014cc26')
+        .get('/url-media?search=8014cc26')
         .auth('admin', 'admin')
         .send()
         .expect(200)
