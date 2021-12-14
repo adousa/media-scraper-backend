@@ -42,25 +42,27 @@ export class MediaService {
     const typesToScrap = this.configService.get<string[]>(
       'common.typesToScrap',
     );
-    for (let i = 0; i < typesToScrap.length; i++) {}
-
     const record = new Url();
     record.url = url;
 
     await this.urlRepository.save(record);
+
+    const result = await this.mediaScrapper.scrapURL(url, typesToScrap);
+
     for (const type of typesToScrap) {
-      const typeSrcs = await this.mediaScrapper.scrapURLByType(url, type);
-      for (const src of typeSrcs) {
+      for (const src of result[type] || []) {
         if (!src || src === '') {
           continue;
         }
         const urlMedia = new UrlMedia();
         urlMedia.src = src;
         urlMedia.type = type;
+        urlMedia.description = result.pageTitle;
         urlMedia.url = record;
         await this.urlMediaRepository.save(urlMedia);
       }
     }
-    return record;
+
+    return await this.urlRepository.findOne(record.id);
   }
 }

@@ -34,6 +34,8 @@ export class Url {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany((type) => UrlMedia, (urlMedia: UrlMedia) => urlMedia.url)
+  @OneToMany((type) => UrlMedia, (urlMedia: UrlMedia) => urlMedia.url, {
+    eager: true,
+  })
   urlMedia: UrlMedia[];
 }
