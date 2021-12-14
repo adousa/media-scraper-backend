@@ -45,6 +45,8 @@ the following command
 ```bash
 # unit tests
 $ npm run test
+or
+# npm run test:e2e
 ```
 
 
