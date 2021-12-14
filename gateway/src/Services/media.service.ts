@@ -42,7 +42,6 @@ export class MediaService {
     const typesToScrap = this.configService.get<string[]>(
       'common.typesToScrap',
     );
-
     const record = new Url();
     record.url = url;
 
@@ -64,6 +63,6 @@ export class MediaService {
       }
     }
 
-    return record;
+    return await this.urlRepository.findOne(record.id);
   }
 }
