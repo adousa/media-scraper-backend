@@ -11,18 +11,36 @@ export class ScraperService extends PuppeteerService {
       await this.initiateBrowserAndPage();
       await this.goToPage(url);
 
-      result = await this.page.evaluate((type) => {
-        // @ts-ignore
-        const tags = document.querySelectorAll(type);
-        if (tags) {
-          // @ts-ignore
-          return Array.from(tags).map((tag) => {
-            // @ts-ignore
-            return tag.getAttribute('src');
-          });
-        }
-        return [];
-      }, type);
+      result = this.scrapSrcsByTag(type);
+
+      this.logger.debug(
+        `Finish Scraping ${url} for type:${type} count of srcs ${
+          (result || []).length
+        }`,
+      );
+
+      await this.closeBrowserAndPage();
+    } catch (e) {
+      this.logger.error(`error while scraping ${url} for type ${url}`);
+      throw e;
+    }
+    return result;
+  }
+
+  async scrapUrl(url: string, types: string[]) {
+    this.logger.debug(`Start Scraping ${url}`);
+    let result = {};
+    try {
+      await this.initiateBrowserAndPage();
+      await this.goToPage(url);
+
+      for (const type of types) {
+        result[type] = await this.scrapSrcsByTag(type);
+      }
+
+      Object.assign(result, { pageTitle: await this.scrapPageTitle() });
+
+      this.logger.debug(`Finish Scraping ${url} result: ${result.toString()}`);
 
       await this.closeBrowserAndPage();
     } catch (e) {

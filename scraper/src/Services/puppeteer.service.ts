@@ -34,4 +34,28 @@ export class PuppeteerService {
       this.configService.get<number>('scraper.timeout'),
     );
   }
+
+  async scrapSrcsByTag(type: string) {
+    return await this.page.evaluate((type) => {
+      // @ts-ignore
+      const tags = document.querySelectorAll(type);
+      if (tags) {
+        // @ts-ignore
+        return Array.from(tags).map((tag) => {
+          // @ts-ignore
+          return tag.getAttribute('src');
+        });
+      }
+      return [];
+    }, type);
+  }
+
+  async scrapPageTitle() {
+    return await this.page.evaluate(() => {
+      // @ts-ignore
+      const titleTag = document.querySelector('title');
+      // @ts-ignore
+      return titleTag.textContent;
+    });
+  }
 }
